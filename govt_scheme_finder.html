@@ -1,0 +1,552 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&family=Noto+Sans:wght@400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--saffron:#FF6B00;--navy:#0A2240;--green:#138808;--gold:#FFC107;--bg:#F5F7FA;--card:#fff;--border:#E2E8F0;--text:#1A2B3C;--muted:#64748B;--radius:14px}
+body{font-family:'Noto Sans',sans-serif;background:var(--bg);color:var(--text);font-size:15px}
+h1,h2,h3,h4{font-family:'Sora',sans-serif}
+.hero{background:linear-gradient(135deg,var(--navy) 0%,#1a3a6b 60%,#0d5c3a 100%);padding:2.5rem 1.5rem 2rem;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,107,0,0.2);border:1px solid rgba(255,107,0,0.4);color:#FFB366;padding:5px 14px;border-radius:50px;font-size:12px;font-weight:500;margin-bottom:1rem}
+.hero h1{font-size:2rem;font-weight:600;color:#fff;line-height:1.25;margin-bottom:.6rem}
+.hero h1 span{color:#FFB366}
+.hero p{color:rgba(255,255,255,0.7);font-size:14px;margin-bottom:1.5rem}
+.tricolor{display:flex;height:4px;width:120px;margin:0 auto 1.5rem;border-radius:2px;overflow:hidden}
+.tricolor div{flex:1}
+.t1{background:#FF9933}.t2{background:#fff}.t3{background:#138808}
+
+.filter-card{background:var(--card);margin:1.25rem 1rem;border-radius:var(--radius);border:1px solid var(--border);padding:1.25rem;box-shadow:0 2px 16px rgba(10,34,64,0.07)}
+.filter-title{font-family:'Sora',sans-serif;font-size:.85rem;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:1rem}
+.filter-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.field label{font-size:12px;font-weight:500;color:var(--muted);display:block;margin-bottom:4px}
+.field input,.field select{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'Noto Sans',sans-serif;background:#f9fafb;color:var(--text);outline:none;transition:border .2s}
+.field input:focus,.field select:focus{border-color:var(--saffron)}
+.search-btn{width:100%;margin-top:1rem;padding:13px;background:linear-gradient(90deg,var(--saffron),#e65500);color:#fff;border:none;border-radius:10px;font-size:15px;font-family:'Sora',sans-serif;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .2s}
+.search-btn:hover{opacity:.92}
+.search-btn svg{width:18px;height:18px}
+
+.tabs{display:flex;gap:0;margin:0 1rem .75rem;border-bottom:2px solid var(--border)}
+.tab{flex:1;padding:10px 4px;font-size:13px;font-family:'Sora',sans-serif;font-weight:500;color:var(--muted);text-align:center;cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-2px;transition:all .2s}
+.tab.active{color:var(--saffron);border-color:var(--saffron)}
+
+.section-title{font-family:'Sora',sans-serif;font-size:1rem;font-weight:600;color:var(--text);padding:0 1rem .5rem;display:flex;align-items:center;justify-content:space-between}
+.badge{font-size:11px;font-weight:500;padding:2px 9px;border-radius:50px}
+.badge-green{background:#E6F4EA;color:#1B6B3A}
+.badge-orange{background:#FFF3E0;color:#BF5400}
+.badge-blue{background:#E3F2FD;color:#1565C0}
+.badge-red{background:#FFEBEE;color:#B71C1C}
+
+.schemes{padding:0 1rem;display:flex;flex-direction:column;gap:.75rem}
+.scheme-card{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);padding:1rem 1.1rem;transition:box-shadow .2s;cursor:pointer}
+.scheme-card:hover{box-shadow:0 4px 20px rgba(10,34,64,0.1)}
+.sc-header{display:flex;align-items:flex-start;gap:10px;margin-bottom:.6rem}
+.sc-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px}
+.sc-title{font-family:'Sora',sans-serif;font-size:.9rem;font-weight:600;line-height:1.3;color:var(--text)}
+.sc-ministry{font-size:11px;color:var(--muted);margin-top:2px}
+.sc-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:.7rem}
+.sc-tag{font-size:11px;padding:2px 8px;border-radius:50px;font-weight:500}
+.sc-footer{display:flex;align-items:center;justify-content:space-between}
+.deadline{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:4px}
+.deadline svg{width:12px;height:12px}
+.sc-btns{display:flex;gap:6px}
+.btn-sm{padding:5px 12px;border-radius:7px;font-size:12px;font-weight:500;cursor:pointer;border:none;font-family:'Noto Sans',sans-serif}
+.btn-apply{background:var(--saffron);color:#fff}
+.btn-alarm{background:#F3E5F5;color:#7B1FA2;display:flex;align-items:center;gap:4px}
+.btn-alarm svg{width:12px;height:12px}
+
+.hidden{display:none}
+
+.panel{padding:0 1rem}
+.panel-section{margin-bottom:1.5rem}
+.panel-section h3{font-family:'Sora',sans-serif;font-size:.95rem;font-weight:600;color:var(--text);margin-bottom:.75rem;display:flex;align-items:center;gap:6px}
+.panel-section h3 svg{width:16px;height:16px}
+
+.helpline-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;display:flex;align-items:center;gap:12px;margin-bottom:.5rem}
+.hl-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.hl-name{font-size:13px;font-weight:500;color:var(--text)}
+.hl-num{font-size:13px;color:var(--saffron);font-weight:600;margin-top:1px}
+.hl-call{margin-left:auto;background:var(--green);color:#fff;border:none;border-radius:8px;padding:7px 14px;font-size:12px;font-weight:500;cursor:pointer;font-family:'Noto Sans',sans-serif}
+
+.voice-card{background:linear-gradient(135deg,#E8F5E9,#F3E5F5);border:1px solid #C8E6C9;border-radius:var(--radius);padding:1.2rem}
+.voice-title{font-family:'Sora',sans-serif;font-size:.9rem;font-weight:600;color:#1B5E20;margin-bottom:.4rem;display:flex;align-items:center;gap:6px}
+.voice-desc{font-size:12px;color:#2E7D32;margin-bottom:.9rem;line-height:1.5}
+.voice-btns{display:flex;gap:.5rem;flex-wrap:wrap}
+.vbtn{padding:8px 14px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;border:none;font-family:'Noto Sans',sans-serif;display:flex;align-items:center;gap:5px}
+.vbtn svg{width:14px;height:14px}
+.vbtn-start{background:#2E7D32;color:#fff}
+.vbtn-hindi{background:#7B1FA2;color:#fff}
+.vbtn-stop{background:#C62828;color:#fff}
+
+.voice-steps{margin-top:.75rem;display:none}
+.voice-step{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid rgba(0,0,0,0.06)}
+.vs-num{width:22px;height:22px;border-radius:50%;background:#2E7D32;color:#fff;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.vs-text{font-size:12px;color:#1B5E20;line-height:1.5}
+
+.alarm-list{display:flex;flex-direction:column;gap:.5rem}
+.alarm-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:.8rem 1rem;display:flex;align-items:center;gap:10px}
+.alarm-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.alarm-scheme{font-size:13px;font-weight:500;color:var(--text)}
+.alarm-date{font-size:11px;color:var(--muted);margin-top:1px}
+.alarm-del{margin-left:auto;background:none;border:none;color:#EF5350;cursor:pointer;font-size:18px;line-height:1}
+
+.members{padding:0 1rem 2rem}
+.mem-banner{background:linear-gradient(135deg,var(--navy) 0%,#1a3a6b 100%);border-radius:var(--radius);padding:1.4rem;color:#fff;text-align:center;margin-bottom:1rem;position:relative;overflow:hidden}
+.mem-banner::before{content:'★';position:absolute;font-size:80px;opacity:.06;right:-10px;top:-10px}
+.mem-title{font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:600;margin-bottom:.3rem}
+.mem-sub{font-size:12px;opacity:.75;margin-bottom:1rem}
+.plans{display:flex;flex-direction:column;gap:.75rem}
+.plan-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:1.1rem;position:relative}
+.plan-card.featured{border-color:#FF6B00;background:linear-gradient(135deg,#FFF8F5,#FFF)}
+.plan-tag{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--saffron);color:#fff;font-size:11px;font-weight:600;padding:3px 14px;border-radius:50px;white-space:nowrap}
+.plan-name{font-family:'Sora',sans-serif;font-size:.95rem;font-weight:600;color:var(--text)}
+.plan-price{font-size:1.4rem;font-weight:600;color:var(--saffron);margin:.3rem 0}
+.plan-price span{font-size:13px;font-weight:400;color:var(--muted)}
+.plan-features{list-style:none;margin:.75rem 0;display:flex;flex-direction:column;gap:5px}
+.plan-features li{font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.plan-features li::before{content:'✓';color:var(--green);font-weight:700;font-size:13px}
+.plan-btn{width:100%;padding:10px;background:var(--saffron);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:'Sora',sans-serif}
+.plan-btn.outline{background:#fff;color:var(--saffron);border:1.5px solid var(--saffron)}
+
+.modal{display:none;position:fixed;inset:0;background:rgba(10,34,64,0.55);z-index:100;align-items:flex-end;justify-content:center}
+.modal.open{display:flex}
+.modal-box{background:#fff;border-radius:20px 20px 0 0;padding:1.5rem;width:100%;max-height:88vh;overflow-y:auto}
+.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.modal-head h3{font-family:'Sora',sans-serif;font-size:1rem;font-weight:600}
+.modal-close{background:none;border:none;font-size:22px;cursor:pointer;color:var(--muted)}
+.detail-row{display:flex;justify-content:space-between;align-items:flex-start;padding:.6rem 0;border-bottom:1px solid var(--border)}
+.detail-row:last-child{border:none}
+.dr-label{font-size:12px;color:var(--muted);width:40%}
+.dr-value{font-size:13px;font-weight:500;color:var(--text);text-align:right;width:58%}
+.apply-big{width:100%;margin-top:1rem;padding:14px;background:linear-gradient(90deg,var(--saffron),#e65500);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif}
+.alarm-set-form{margin-top:.75rem;background:#FFF8F5;border:1px solid #FFD0A8;border-radius:10px;padding:.9rem}
+.alarm-set-form label{font-size:12px;font-weight:500;color:var(--muted);display:block;margin-bottom:4px}
+.alarm-set-form input{width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:7px;font-size:13px}
+.alarm-save{margin-top:.6rem;padding:8px 18px;background:var(--saffron);color:#fff;border:none;border-radius:7px;font-size:13px;font-weight:500;cursor:pointer}
+
+.nav{display:flex;justify-content:space-around;background:#fff;border-top:1px solid var(--border);position:sticky;bottom:0;z-index:50;padding:8px 0}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:4px 12px;border-radius:8px;transition:background .15s}
+.nav-item.active .nav-icon,.nav-item:hover .nav-icon{color:var(--saffron)}
+.nav-item.active .nav-label{color:var(--saffron)}
+.nav-icon{width:22px;height:22px;color:#94A3B8;transition:color .15s}
+.nav-label{font-size:10px;color:var(--muted);font-weight:500}
+
+.result-count{font-size:12px;color:var(--muted);padding:0 1rem .5rem}
+</style>
+
+<h2 class="sr-only" style="position:absolute;left:-9999px">Government Scheme Finder — India</h2>
+
+<div id="app">
+  <div class="hero">
+    <div class="tricolor"><div class="t1"></div><div class="t2"></div><div class="t3"></div></div>
+    <div class="hero-badge">
+      <svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor"><path d="M8 1l1.5 4.5H15l-4 2.9 1.5 4.6L8 10.1 3.5 13 5 8.4 1 5.5h5.5z"/></svg>
+      Official Govt Scheme Portal
+    </div>
+    <h1>Find Your <span>Sarkar Yojana</span></h1>
+    <p>Enter your details to discover schemes you're eligible for</p>
+  </div>
+
+  <div id="page-home">
+    <div class="filter-card">
+      <div class="filter-title">Your Profile</div>
+      <div class="filter-grid">
+        <div class="field">
+          <label>Age</label>
+          <input type="number" id="f-age" placeholder="e.g. 32" min="1" max="120">
+        </div>
+        <div class="field">
+          <label>Annual Income (₹)</label>
+          <input type="number" id="f-income" placeholder="e.g. 250000">
+        </div>
+        <div class="field">
+          <label>Category</label>
+          <select id="f-cat">
+            <option value="">Select</option>
+            <option>General</option>
+            <option>OBC</option>
+            <option>SC</option>
+            <option>ST</option>
+            <option>EWS</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>State</label>
+          <select id="f-state">
+            <option value="">All India</option>
+            <option>Uttar Pradesh</option>
+            <option>Maharashtra</option>
+            <option>Bihar</option>
+            <option>Rajasthan</option>
+            <option>Delhi</option>
+            <option>West Bengal</option>
+            <option>Tamil Nadu</option>
+            <option>Kerala</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Gender</label>
+          <select id="f-gender">
+            <option value="">Any</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Occupation</label>
+          <select id="f-occ">
+            <option value="">Any</option>
+            <option>Farmer</option>
+            <option>Student</option>
+            <option>Business</option>
+            <option>Salaried</option>
+            <option>Unemployed</option>
+          </select>
+        </div>
+      </div>
+      <button class="search-btn" onclick="findSchemes()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        Find My Schemes
+      </button>
+    </div>
+
+    <div id="results-section" class="hidden">
+      <div class="section-title">
+        <span id="results-heading">Matching Schemes</span>
+        <span class="badge badge-green" id="results-count">0 found</span>
+      </div>
+      <div class="tabs" id="cat-tabs"></div>
+      <div class="schemes" id="scheme-list"></div>
+    </div>
+  </div>
+
+  <div id="page-alarm" class="hidden panel">
+    <div style="padding:1rem 0 .5rem">
+      <div style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:600;color:var(--text);margin-bottom:.25rem">Deadline Alarms</div>
+      <div style="font-size:12px;color:var(--muted)">Get notified before scheme deadlines</div>
+    </div>
+    <div class="panel-section">
+      <h3>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+        Active Alarms
+      </h3>
+      <div class="alarm-list" id="alarm-list"></div>
+    </div>
+    <div class="panel-section">
+      <h3>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Upcoming Deadlines
+      </h3>
+      <div class="alarm-list">
+        <div class="alarm-item"><div class="alarm-dot" style="background:#FF6B00"></div><div><div class="alarm-scheme">PM Kisan Samman Nidhi — Installment</div><div class="alarm-date">Deadline: 30 Apr 2026 &nbsp;·&nbsp; 13 days left</div></div></div>
+        <div class="alarm-item"><div class="alarm-dot" style="background:#7B1FA2"></div><div><div class="alarm-scheme">Beti Bachao Beti Padhao</div><div class="alarm-date">Application Close: 15 May 2026 &nbsp;·&nbsp; 28 days left</div></div></div>
+        <div class="alarm-item"><div class="alarm-dot" style="background:#1565C0"></div><div><div class="alarm-scheme">Pradhan Mantri Awas Yojana</div><div class="alarm-date">Next Cycle: 1 Jun 2026 &nbsp;·&nbsp; 45 days left</div></div></div>
+        <div class="alarm-item"><div class="alarm-dot" style="background:#2E7D32"></div><div><div class="alarm-scheme">National Scholarship Portal</div><div class="alarm-date">Last Date: 31 Oct 2026 &nbsp;·&nbsp; 197 days left</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="page-help" class="hidden panel">
+    <div style="padding:1rem 0 .5rem">
+      <div style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:600;color:var(--text);margin-bottom:.25rem">Helplines & Guidance</div>
+      <div style="font-size:12px;color:var(--muted)">Call experts or get live voice instructions</div>
+    </div>
+    <div class="panel-section">
+      <h3>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.59 12 19.79 19.79 0 01.5 3.38 2 2 0 012.48 1.22h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 8.86a16 16 0 006.21 6.21l1.22-1.22a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+        Government Helplines
+      </h3>
+      <div class="helpline-card"><div class="hl-icon" style="background:#FFF3E0">📞</div><div><div class="hl-name">PM-KISAN Helpline</div><div class="hl-num">155261 / 1800115526</div></div><button class="hl-call" onclick="callHelpline('PM-KISAN')">Call</button></div>
+      <div class="helpline-card"><div class="hl-icon" style="background:#E3F2FD">🏠</div><div><div class="hl-name">PMAY (Housing) Helpline</div><div class="hl-num">1800-11-3377</div></div><button class="hl-call" onclick="callHelpline('PMAY')">Call</button></div>
+      <div class="helpline-card"><div class="hl-icon" style="background:#E8F5E9">💊</div><div><div class="hl-name">Ayushman Bharat Helpline</div><div class="hl-num">14555 / 1800111565</div></div><button class="hl-call" onclick="callHelpline('Ayushman Bharat')">Call</button></div>
+      <div class="helpline-card"><div class="hl-icon" style="background:#F3E5F5">🎓</div><div><div class="hl-name">National Scholarship Helpline</div><div class="hl-num">0120-6619540</div></div><button class="hl-call" onclick="callHelpline('Scholarship')">Call</button></div>
+      <div class="helpline-card"><div class="hl-icon" style="background:#FFEBEE">👩</div><div><div class="hl-name">Women Helpline (Scheme Info)</div><div class="hl-num">181</div></div><button class="hl-call" onclick="callHelpline('Women')">Call</button></div>
+    </div>
+    <div class="panel-section">
+      <h3>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg>
+        Live Voice Instructions
+      </h3>
+      <div class="voice-card">
+        <div class="voice-title">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#2E7D32" stroke-width="2"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8"/></svg>
+          AI Voice Guide — Scheme Application Steps
+        </div>
+        <div class="voice-desc">Listen to step-by-step voice instructions to fill your application. Available in Hindi & English.</div>
+        <div class="voice-btns">
+          <button class="vbtn vbtn-start" onclick="startVoice('en')">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            English
+          </button>
+          <button class="vbtn vbtn-hindi" onclick="startVoice('hi')">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            हिंदी
+          </button>
+          <button class="vbtn vbtn-stop" id="stop-btn" style="display:none" onclick="stopVoice()">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><rect x="6" y="6" width="12" height="12"/></svg>
+            Stop
+          </button>
+        </div>
+        <div class="voice-steps" id="voice-steps">
+          <div class="voice-step"><div class="vs-num">1</div><div class="vs-text" id="vs1">Go to the official scheme portal or your nearest Common Service Centre (CSC).</div></div>
+          <div class="voice-step"><div class="vs-num">2</div><div class="vs-text" id="vs2">Keep your Aadhaar Card, Bank Passbook, and Income Certificate ready.</div></div>
+          <div class="voice-step"><div class="vs-num">3</div><div class="vs-text" id="vs3">Fill in personal details: Name, DOB, address as per Aadhaar.</div></div>
+          <div class="voice-step"><div class="vs-num">4</div><div class="vs-text" id="vs4">Upload scanned documents (JPG/PDF, max 200KB each).</div></div>
+          <div class="voice-step"><div class="vs-num">5</div><div class="vs-text" id="vs5">Submit and note down your Application Reference Number for tracking.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="page-member" class="hidden">
+    <div class="members">
+      <div style="padding:.75rem 0 .25rem">
+        <div style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:600;color:var(--text);margin-bottom:.25rem">Membership</div>
+        <div style="font-size:12px;color:var(--muted)">Unlock premium features and personalized alerts</div>
+      </div>
+      <div class="mem-banner">
+        <div class="mem-title">Upgrade Your Yojana Experience</div>
+        <div class="mem-sub">Get notified the moment new schemes are announced for you</div>
+      </div>
+      <div class="plans">
+        <div class="plan-card">
+          <div class="plan-name">Free</div>
+          <div class="plan-price">₹0 <span>/ forever</span></div>
+          <ul class="plan-features">
+            <li>Search up to 5 schemes per day</li>
+            <li>Basic eligibility filter</li>
+            <li>View scheme details</li>
+          </ul>
+          <button class="plan-btn outline">Current Plan</button>
+        </div>
+        <div class="plan-card featured">
+          <div class="plan-tag">Most Popular</div>
+          <div class="plan-name" style="margin-top:.4rem">Jan Seva Pro</div>
+          <div class="plan-price">₹49 <span>/ month</span></div>
+          <ul class="plan-features">
+            <li>Unlimited scheme searches</li>
+            <li>Deadline alarm notifications (SMS + App)</li>
+            <li>AI-powered eligibility matching</li>
+            <li>Voice guidance in 10+ languages</li>
+            <li>Auto-fill application forms</li>
+            <li>Priority helpline callback</li>
+          </ul>
+          <button class="plan-btn" onclick="selectPlan('Pro')">Get Pro — ₹49/mo</button>
+        </div>
+        <div class="plan-card">
+          <div class="plan-name">Parivar Pack</div>
+          <div class="plan-price">₹99 <span>/ month</span></div>
+          <ul class="plan-features">
+            <li>Everything in Pro</li>
+            <li>Cover up to 5 family members</li>
+            <li>Senior citizen & disability schemes</li>
+            <li>Dedicated CSC agent support</li>
+            <li>Document vault (5GB cloud storage)</li>
+          </ul>
+          <button class="plan-btn outline" onclick="selectPlan('Parivar')">Get Parivar Pack</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <div class="nav-item active" id="nav-home" onclick="showPage('home')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span class="nav-label">Home</span>
+    </div>
+    <div class="nav-item" id="nav-alarm" onclick="showPage('alarm')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+      <span class="nav-label">Alarms</span>
+    </div>
+    <div class="nav-item" id="nav-help" onclick="showPage('help')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.59 12 19.79 19.79 0 01.5 3.38 2 2 0 012.48 1.22h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.86"/></svg>
+      <span class="nav-label">Helpline</span>
+    </div>
+    <div class="nav-item" id="nav-member" onclick="showPage('member')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span class="nav-label">Membership</span>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="scheme-modal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3 id="modal-title">Scheme Details</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div id="modal-content"></div>
+    <div class="alarm-set-form" id="alarm-form">
+      <label>Set Deadline Alarm</label>
+      <input type="date" id="alarm-date-input">
+      <button class="alarm-save" onclick="saveAlarm()">Save Alarm</button>
+    </div>
+    <button class="apply-big" onclick="applyNow()">Apply Now on Official Portal</button>
+  </div>
+</div>
+
+<div id="toast" style="display:none;position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1A2B3C;color:#fff;padding:9px 20px;border-radius:50px;font-size:13px;font-family:'Sora',sans-serif;font-weight:500;z-index:200;white-space:nowrap"></div>
+
+<script>
+const schemes=[
+  {id:1,name:"PM Kisan Samman Nidhi",ministry:"Ministry of Agriculture",icon:"🌾",color:"#E8F5E9",tag:["Farmers","All India"],badge:"badge-green",minAge:18,maxAge:75,maxIncome:200000,categories:["General","OBC","SC","ST","EWS"],deadline:"30 Apr 2026",benefit:"₹6,000/year",link:"https://pmkisan.gov.in",details:{Benefit:"₹6,000/year (3 installments)","Who Can Apply":"Small & marginal farmers","Documents":"Aadhaar, Land Records, Bank Passbook",Status:"Active"}},
+  {id:2,name:"Pradhan Mantri Awas Yojana",ministry:"Ministry of Housing",icon:"🏠",color:"#E3F2FD",tag:["Housing","All India"],badge:"badge-blue",minAge:21,maxAge:70,maxIncome:600000,categories:["General","OBC","SC","ST","EWS"],deadline:"31 Mar 2027",benefit:"Subsidy up to ₹2.67L",link:"https://pmaymis.gov.in",details:{Benefit:"Home loan subsidy up to ₹2.67 lakh","Who Can Apply":"First-time home buyers, no pucca house","Documents":"Aadhaar, Income proof, PAN card",Status:"Active"}},
+  {id:3,name:"Ayushman Bharat — PMJAY",ministry:"Ministry of Health",icon:"💊",color:"#F3E5F5",tag:["Health","All India"],badge:"badge-orange",minAge:0,maxAge:120,maxIncome:300000,categories:["General","OBC","SC","ST","EWS"],deadline:"Ongoing",benefit:"₹5L health cover/family",link:"https://pmjay.gov.in",details:{Benefit:"₹5 lakh health insurance per family per year","Who Can Apply":"BPL & low-income families per SECC data","Documents":"Aadhaar, Ration Card",Status:"Active"}},
+  {id:4,name:"National Scholarship Portal",ministry:"Ministry of Education",icon:"🎓",color:"#FFFDE7",tag:["Students","All India"],badge:"badge-blue",minAge:10,maxAge:32,maxIncome:250000,categories:["OBC","SC","ST","EWS"],deadline:"31 Oct 2026",benefit:"₹500–₹20,000/year",link:"https://scholarships.gov.in",details:{Benefit:"Scholarship ₹500–₹20,000/year depending on course","Who Can Apply":"SC/ST/OBC/Minority students","Documents":"Marksheet, Caste certificate, Bank details",Status:"Active"}},
+  {id:5,name:"PM Mudra Yojana",ministry:"Ministry of Finance",icon:"💼",color:"#FFF3E0",tag:["Business","All India"],badge:"badge-orange",minAge:18,maxAge:65,maxIncome:999999,categories:["General","OBC","SC","ST","EWS"],deadline:"Ongoing",benefit:"Loan up to ₹10L",link:"https://mudra.org.in",details:{Benefit:"Collateral-free loans ₹50K–₹10 lakh","Who Can Apply":"Micro/small business owners, self-employed","Documents":"Business plan, Aadhaar, PAN",Status:"Active"}},
+  {id:6,name:"Beti Bachao Beti Padhao",ministry:"Ministry of Women & Child Dev.",icon:"👧",color:"#FCE4EC",tag:["Women","All India"],badge:"badge-orange",minAge:0,maxAge:21,maxIncome:999999,categories:["General","OBC","SC","ST","EWS"],deadline:"15 May 2026",benefit:"Education benefits",link:"https://wcd.nic.in/bbbp",details:{Benefit:"Education & welfare support for girl child","Who Can Apply":"Girl children from birth to 21 years","Documents":"Birth certificate, Aadhaar of parent",Status:"Active"}},
+  {id:7,name:"Pradhan Mantri Ujjwala Yojana",ministry:"Ministry of Petroleum",icon:"🔥",color:"#FBE9E7",tag:["BPL Families","All India"],badge:"badge-red",minAge:18,maxAge:75,maxIncome:150000,categories:["SC","ST","EWS","OBC"],deadline:"Ongoing",benefit:"Free LPG connection",link:"https://pmuy.gov.in",details:{Benefit:"Free LPG gas connection + first refill free","Who Can Apply":"BPL women above 18 years","Documents":"BPL card, Aadhaar, Bank account",Status:"Active"}},
+  {id:8,name:"Atal Pension Yojana",ministry:"Ministry of Finance",icon:"👴",color:"#E8EAF6",tag:["Pension","All India"],badge:"badge-blue",minAge:18,maxAge:40,maxIncome:999999,categories:["General","OBC","SC","ST","EWS"],deadline:"Ongoing",benefit:"Pension ₹1,000–₹5,000/mo",link:"https://npscra.nsdl.co.in",details:{Benefit:"Guaranteed pension ₹1,000–₹5,000/month at 60","Who Can Apply":"Age 18–40, bank account holder","Documents":"Aadhaar, Bank account, Mobile number",Status:"Active"}},
+];
+
+let alarms=[{id:1,name:"PM Kisan Samman Nidhi",date:"30 Apr 2026",color:"#FF6B00"},{id:2,name:"National Scholarship Portal",date:"31 Oct 2026",color:"#1565C0"}];
+let currentScheme=null;
+let activeCat='all';
+let voiceUtter=null;
+
+function findSchemes(){
+  const age=parseInt(document.getElementById('f-age').value)||0;
+  const income=parseInt(document.getElementById('f-income').value)||999999;
+  const cat=document.getElementById('f-cat').value;
+  const filtered=schemes.filter(s=>{
+    if(age&&(age<s.minAge||age>s.maxAge))return false;
+    if(income&&income>s.maxIncome)return false;
+    if(cat&&!s.categories.includes(cat))return false;
+    return true;
+  });
+  renderResults(filtered);
+  document.getElementById('results-section').classList.remove('hidden');
+  document.getElementById('results-section').scrollIntoView({behavior:'smooth'});
+}
+
+function renderResults(list,cat){
+  const cats=['All',...new Set(list.flatMap(s=>s.tag.slice(0,1)))];
+  const tabs=document.getElementById('cat-tabs');
+  tabs.innerHTML=cats.map(c=>`<div class="tab${(!cat&&c==='All'||c===cat)?' active':''}" onclick="filterCat('${c}',this)">${c}</div>`).join('');
+  const display=(!cat||cat==='All')?list:list.filter(s=>s.tag[0]===cat);
+  document.getElementById('results-count').textContent=display.length+' found';
+  document.getElementById('results-heading').textContent='Matching Schemes';
+  const html=display.map(s=>`
+    <div class="scheme-card" onclick="openScheme(${s.id})">
+      <div class="sc-header">
+        <div class="sc-icon" style="background:${s.color}">${s.icon}</div>
+        <div><div class="sc-title">${s.name}</div><div class="sc-ministry">${s.ministry}</div></div>
+      </div>
+      <div class="sc-tags">${s.tag.map(t=>`<span class="sc-tag ${s.badge}" style="background:${s.color}">${t}</span>`).join('')}
+        <span class="sc-tag badge-green">${s.benefit}</span>
+      </div>
+      <div class="sc-footer">
+        <div class="deadline">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          ${s.deadline}
+        </div>
+        <div class="sc-btns">
+          <button class="btn-sm btn-alarm" onclick="event.stopPropagation();quickAlarm(${s.id})">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+            Alarm
+          </button>
+          <button class="btn-sm btn-apply" onclick="event.stopPropagation();window.open('${s.link}','_blank')">Apply</button>
+        </div>
+      </div>
+    </div>`).join('');
+  document.getElementById('scheme-list').innerHTML=html||'<div style="text-align:center;padding:2rem;color:var(--muted);font-size:14px">No matching schemes found. Try adjusting filters.</div>';
+}
+
+function filterCat(cat,el){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  const age=parseInt(document.getElementById('f-age').value)||0;
+  const income=parseInt(document.getElementById('f-income').value)||999999;
+  const c=document.getElementById('f-cat').value;
+  const filtered=schemes.filter(s=>{
+    if(age&&(age<s.minAge||age>s.maxAge))return false;
+    if(income&&income>s.maxIncome)return false;
+    if(c&&!s.categories.includes(c))return false;
+    return true;
+  });
+  renderResults(filtered,cat==='All'?null:cat);
+}
+
+function openScheme(id){
+  currentScheme=schemes.find(s=>s.id===id);
+  document.getElementById('modal-title').textContent=currentScheme.name;
+  const d=currentScheme.details;
+  const rows=Object.entries(d).map(([k,v])=>`<div class="detail-row"><span class="dr-label">${k}</span><span class="dr-value">${v}</span></div>`).join('');
+  document.getElementById('modal-content').innerHTML=`<div style="background:${currentScheme.color};border-radius:10px;padding:12px;display:flex;align-items:center;gap:12px;margin-bottom:1rem"><span style="font-size:32px">${currentScheme.icon}</span><div><div style="font-family:'Sora',sans-serif;font-weight:600;font-size:.9rem">${currentScheme.ministry}</div><div style="font-size:12px;color:var(--muted)">Deadline: ${currentScheme.deadline}</div></div></div>${rows}`;
+  document.getElementById('scheme-modal').classList.add('open');
+}
+
+function closeModal(){document.getElementById('scheme-modal').classList.remove('open')}
+
+function saveAlarm(){
+  const d=document.getElementById('alarm-date-input').value;
+  if(!d){showToast('Please select a date');return}
+  alarms.push({id:Date.now(),name:currentScheme.name,date:new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}),color:'#FF6B00'});
+  renderAlarms();
+  showToast('Alarm set for '+currentScheme.name);
+  closeModal();
+}
+
+function quickAlarm(id){
+  const s=schemes.find(x=>x.id===id);
+  alarms.push({id:Date.now(),name:s.name,date:s.deadline,color:s.color||'#FF6B00'});
+  renderAlarms();
+  showToast('Alarm set — '+s.name);
+}
+
+function renderAlarms(){
+  const list=document.getElementById('alarm-list');
+  if(!alarms.length){list.innerHTML='<div style="font-size:13px;color:var(--muted);text-align:center;padding:1rem">No alarms set yet</div>';return}
+  list.innerHTML=alarms.map(a=>`<div class="alarm-item"><div class="alarm-dot" style="background:${a.color}"></div><div><div class="alarm-scheme">${a.name}</div><div class="alarm-date">Deadline: ${a.date}</div></div><button class="alarm-del" onclick="delAlarm(${a.id})">×</button></div>`).join('');
+}
+
+function delAlarm(id){alarms=alarms.filter(a=>a.id!==id);renderAlarms();showToast('Alarm removed')}
+
+function applyNow(){window.open(currentScheme.link,'_blank');closeModal()}
+
+function showPage(p){
+  ['home','alarm','help','member'].forEach(pg=>{
+    document.getElementById('page-'+pg).classList.add('hidden');
+    document.getElementById('nav-'+pg).classList.remove('active');
+  });
+  document.getElementById('page-'+p).classList.remove('hidden');
+  document.getElementById('nav-'+p).classList.add('active');
+  if(p==='alarm')renderAlarms();
+}
+
+function callHelpline(name){showToast('Calling '+name+' helpline...')}
+function selectPlan(name){showToast('Redirecting to '+name+' plan payment...')}
+
+function startVoice(lang){
+  if(!window.speechSynthesis){showToast('Voice not supported on this device');return}
+  window.speechSynthesis.cancel();
+  const steps_en=["Step 1. Go to the official scheme portal or your nearest Common Service Centre.",
+    "Step 2. Keep your Aadhaar Card, Bank Passbook, and Income Certificate ready.",
+    "Step 3. Fill in personal details: Name, Date of Birth, and address as per Aadhaar.",
+    "Step 4. Upload scanned documents in JPG or PDF format, maximum 200 kilobytes each.",
+    "Step 5. Submit the form and note down your Application Reference Number for tracking."];
+  const steps_hi=["पहला चरण। आधिकारिक योजना पोर्टल या नजदीकी सामान्य सेवा केंद्र पर जाएं।",
+    "दूसरा चरण। आधार कार्ड, बैंक पासबुक और आय प्रमाण पत्र तैयार रखें।",
+    "तीसरा चरण। आधार के अनुसार नाम, जन्मतिथि और पता भरें।",
+    "चौथा चरण। स्कैन किए गए दस्तावेज़ JPG या PDF में अपलोड करें।",
+    "पाँचवां चरण। फॉर्म जमा करें और आवेदन संदर्भ संख्या नोट करें।"];
+  const texts=lang==='hi'?steps_hi:steps_en;
+  document.getElementById('voice-steps').style.display='block';
+  document.getElementById('stop-btn').style.display='flex';
+  let i=0;
+  function speak(idx){
+    if(idx>=texts.length)return;
+    const u=new SpeechSynthesisUtterance(texts[idx]);
+    u.lang=lang==='hi'?'hi-IN':'en-IN';u.rate=0.9;
+    u.onend=()=>{i++;speak(i)};
+    document.querySelectorAll('.voice-step').forEach((el,ei)=>el.style.background=ei===idx?'rgba(46,125,50,0.1)':'transparent');
+    window.speechSynthesis.speak(u);
+  }
+  speak(0);
+}
+
+function stopVoice(){window.speechSynthesis.cancel();document.getElementById('stop-btn').style.display='none';document.querySelectorAll('.voice-step').forEach(el=>el.style.background='transparent')}
+
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',2500)}
+renderAlarms();
+</script>
